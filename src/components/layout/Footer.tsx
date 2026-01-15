@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Mountain, Instagram, Facebook, Mail, Phone, MapPin } from 'lucide-react';
+import { Mountain, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 const FOOTER_LINKS = {
   explore: [
@@ -51,22 +51,13 @@ export function Footer() {
             {/* Social Links */}
             <div className="flex items-center gap-4">
               <a
-                href="https://instagram.com/mountaingoatscdmx"
+                href="https://www.instagram.com/mountaingoatscdmx?igsh=MXRvMHZsbGlvZXhiMw%3D%3D&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="https://facebook.com/mountaingoatscdmx"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5" />
               </a>
               <a
                 href="mailto:mountaingoatscdmx@gmail.com"
