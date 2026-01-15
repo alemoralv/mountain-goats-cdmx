@@ -51,76 +51,110 @@ interface RequestFormData {
 // SAMPLE HIKES DATA (Same as hikes page for consistency)
 // ============================================================================
 const SAMPLE_HIKES: Hike[] = [
-  {
-    id: '1',
-    slug: 'mirador-de-coconetla',
-    title: 'Mirador de Coconetla',
-    location: 'Los Dinamos, CDMX',
-    date: '2026-02-15',
-    difficulty_level: 3,
-    price_hike_only: 750,
-    duration_hours: 3.5,
-  },
-  {
-    id: '2',
-    slug: 'nevado-de-toluca',
-    title: 'Nevado de Toluca',
-    location: 'Estado de México',
-    date: '2026-02-22',
-    difficulty_level: 7,
-    price_hike_only: 1200,
-    duration_hours: 8,
-  },
-  {
-    id: '3',
-    slug: 'la-malinche',
-    title: 'La Malinche',
-    location: 'Tlaxcala',
-    date: '2026-03-08',
-    difficulty_level: 6,
-    price_hike_only: 1100,
-    duration_hours: 10,
-  },
-  {
-    id: '4',
-    slug: 'ajusco-pico-del-aguila',
-    title: 'Pico del Águila',
-    location: 'Ajusco, CDMX',
-    date: '2026-02-08',
-    difficulty_level: 4,
-    price_hike_only: 650,
-    duration_hours: 5,
-  },
-  {
-    id: '5',
-    slug: 'iztaccihuatl-rodillas',
-    title: 'Iztaccíhuatl - Las Rodillas',
-    location: 'Parque Nacional Izta-Popo',
-    date: '2026-03-22',
-    difficulty_level: 8,
-    price_hike_only: 1500,
-    duration_hours: 12,
-  },
-  // Add more dates for demo
+  // ============================================================================
+  // FEBRUARY 2026 - Mix of Saturdays and Sundays
+  // ============================================================================
+  // Feb 1 (Sunday) - Básico
   {
     id: '6',
     slug: 'desierto-leones',
     title: 'Desierto de los Leones',
     location: 'CDMX',
-    date: '2026-02-01',
+    date: '2026-02-01', // Sunday
     difficulty_level: 2,
     price_hike_only: 450,
     duration_hours: 3,
   },
+  // Feb 7 (Saturday) - Moderado
+  {
+    id: '4',
+    slug: 'ajusco-pico-del-aguila',
+    title: 'Pico del Águila',
+    location: 'Ajusco, CDMX',
+    date: '2026-02-07', // Saturday
+    difficulty_level: 4,
+    price_hike_only: 650,
+    duration_hours: 5,
+  },
+  // Feb 14 (Saturday) - Moderado
   {
     id: '7',
     slug: 'cerro-tlaloc',
     title: 'Cerro Tláloc',
     location: 'Estado de México',
-    date: '2026-02-15',
+    date: '2026-02-14', // Saturday
     difficulty_level: 5,
     price_hike_only: 850,
     duration_hours: 6,
+  },
+  // Feb 15 (Sunday) - Básico
+  {
+    id: '1',
+    slug: 'mirador-de-coconetla',
+    title: 'Mirador de Coconetla',
+    location: 'Los Dinamos, CDMX',
+    date: '2026-02-15', // Sunday
+    difficulty_level: 3,
+    price_hike_only: 750,
+    duration_hours: 3.5,
+  },
+  // Feb 21 (Saturday) - Difícil
+  {
+    id: '2',
+    slug: 'nevado-de-toluca',
+    title: 'Nevado de Toluca',
+    location: 'Estado de México',
+    date: '2026-02-21', // Saturday
+    difficulty_level: 7,
+    price_hike_only: 1200,
+    duration_hours: 8,
+  },
+  // Feb 28 (Saturday) - Básico
+  {
+    id: '8',
+    slug: 'tepozteco',
+    title: 'El Tepozteco',
+    location: 'Tepoztlán, Morelos',
+    date: '2026-02-28', // Saturday
+    difficulty_level: 3,
+    price_hike_only: 550,
+    duration_hours: 4,
+  },
+  // ============================================================================
+  // MARCH 2026 - Mix of Saturdays and Sundays
+  // ============================================================================
+  // Mar 7 (Saturday) - Moderado
+  {
+    id: '9',
+    slug: 'pena-de-bernal',
+    title: 'Peña de Bernal',
+    location: 'Querétaro',
+    date: '2026-03-07', // Saturday
+    difficulty_level: 5,
+    price_hike_only: 950,
+    duration_hours: 6,
+  },
+  // Mar 8 (Sunday) - Difícil
+  {
+    id: '3',
+    slug: 'la-malinche',
+    title: 'La Malinche',
+    location: 'Tlaxcala',
+    date: '2026-03-08', // Sunday
+    difficulty_level: 6,
+    price_hike_only: 1100,
+    duration_hours: 10,
+  },
+  // Mar 21 (Saturday) - Avanzado
+  {
+    id: '5',
+    slug: 'iztaccihuatl-rodillas',
+    title: 'Iztaccíhuatl - Las Rodillas',
+    location: 'Parque Nacional Izta-Popo',
+    date: '2026-03-21', // Saturday
+    difficulty_level: 8,
+    price_hike_only: 1500,
+    duration_hours: 12,
   },
 ];
 
