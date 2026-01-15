@@ -179,13 +179,3 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   // Optional: Send notification to Slack/Discord
   // await sendBookingNotification(booking);
 }
-
-/**
- * Disable body parsing for webhook route (needed for raw body)
- */
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
