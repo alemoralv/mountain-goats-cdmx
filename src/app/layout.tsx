@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 // ============================================================================
-// VIEWPORT CONFIGURATION
+// VIEWPORT CONFIGURATION (Updated: Jan 2026)
 // ============================================================================
 export const viewport: Viewport = {
   width: 'device-width',
