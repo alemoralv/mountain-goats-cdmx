@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import type { Database } from '@/types/database';
 
 /**
  * Create a Supabase admin client with service role
@@ -11,9 +10,12 @@ import type { Database } from '@/types/database';
  * - Background jobs
  * 
  * NEVER expose this client to the browser
+ * 
+ * Note: Uses untyped client for flexibility. For full type safety,
+ * generate types using: npx supabase gen types typescript
  */
 export function createAdminClient() {
-  return createClient<Database>(
+  return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {

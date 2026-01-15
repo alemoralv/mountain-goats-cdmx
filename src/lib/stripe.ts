@@ -1,13 +1,29 @@
 import Stripe from 'stripe';
 
 /**
- * Server-side Stripe instance
+ * Server-side Stripe instance (lazy-loaded)
  * Only use in server components, API routes, and server actions
  */
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia',
-  typescript: true,
-});
+let _stripe: Stripe | null = null;
+
+export function getStripe(): Stripe {
+  if (!_stripe) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error('STRIPE_SECRET_KEY is not set');
+    }
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2025-02-24.acacia',
+      typescript: true,
+    });
+  }
+  return _stripe;
+}
+
+// Legacy export for backward compatibility
+export const stripe = {
+  get checkout() { return getStripe().checkout; },
+  get webhooks() { return getStripe().webhooks; },
+};
 
 /**
  * Helper to format price for Stripe (already in centavos, which = cents)

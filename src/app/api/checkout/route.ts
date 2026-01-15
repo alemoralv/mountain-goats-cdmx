@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     
     const { data: hike, error: hikeError } = await supabase
       .from('hikes')
-      .select('id, title, slug, price_hike_only, price_training_only, price_bundle, max_participants, current_participants, date, is_published')
+      .select('*')
       .eq('id', hikeId)
       .single();
 
