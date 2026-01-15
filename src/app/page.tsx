@@ -238,7 +238,7 @@ export default async function HomePage() {
               Próximas Aventuras
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold uppercase tracking-tight text-navy-950 mb-4">
-              Caminatas Destacadas
+              Hikes Destacados
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               Únete a nuestras expediciones guiadas y descubre los paisajes más impresionantes cerca de la Ciudad de México.

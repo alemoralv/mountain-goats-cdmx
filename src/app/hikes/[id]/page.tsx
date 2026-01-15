@@ -10,7 +10,11 @@ import {
   Calendar,
   ChevronRight,
   CheckCircle2,
-  Sparkles
+  Sparkles,
+  Dumbbell,
+  Backpack,
+  ListChecks,
+  Timer
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -18,6 +22,7 @@ import { formatDistance, formatElevation, formatAltitude, formatDuration, format
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { BookingCard } from '@/components/hikes/BookingCard';
+import { ExpandableSection } from '@/components/hikes/ExpandableSection';
 import { getHike } from '@/lib/data';
 import type { Hike } from '@/types/database';
 
@@ -307,6 +312,92 @@ export default async function HikeDetailPage({ params }: HikeDetailPageProps) {
                     subValue="msnm"
                   />
                   <DifficultyBadge level={hike.difficulty_level} />
+                </div>
+
+                {/* Expandable Sections */}
+                <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                  <ExpandableSection title="Qué Incluye">
+                    <ul className="space-y-2 text-sm text-gray-600">
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0 mt-0.5" />
+                        <span>Guía certificado en alta montaña</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0 mt-0.5" />
+                        <span>Transporte desde punto de encuentro</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0 mt-0.5" />
+                        <span>Seguro de accidentes</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0 mt-0.5" />
+                        <span>Snacks energéticos durante la ruta</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0 mt-0.5" />
+                        <span>Fotos profesionales del grupo</span>
+                      </li>
+                    </ul>
+                  </ExpandableSection>
+
+                  <ExpandableSection title="Qué Llevar">
+                    <ul className="space-y-2 text-sm text-gray-600">
+                      <li className="flex items-start gap-2">
+                        <Backpack className="w-4 h-4 text-navy-700 shrink-0 mt-0.5" />
+                        <span>Mochila de 20-30 litros</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Backpack className="w-4 h-4 text-navy-700 shrink-0 mt-0.5" />
+                        <span>2-3 litros de agua</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Backpack className="w-4 h-4 text-navy-700 shrink-0 mt-0.5" />
+                        <span>Ropa en capas (térmica, softshell, impermeable)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Backpack className="w-4 h-4 text-navy-700 shrink-0 mt-0.5" />
+                        <span>Botas de trekking con buen soporte</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Backpack className="w-4 h-4 text-navy-700 shrink-0 mt-0.5" />
+                        <span>Protector solar y gorra/gorro</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Backpack className="w-4 h-4 text-navy-700 shrink-0 mt-0.5" />
+                        <span>Snacks personales adicionales</span>
+                      </li>
+                    </ul>
+                  </ExpandableSection>
+
+                  <ExpandableSection title="Itinerario">
+                    <div className="space-y-3 text-sm">
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 shrink-0 text-forest-700 font-mono font-bold">05:00</div>
+                        <div className="text-gray-600">Punto de encuentro y registro</div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 shrink-0 text-forest-700 font-mono font-bold">05:30</div>
+                        <div className="text-gray-600">Salida hacia el punto de inicio</div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 shrink-0 text-forest-700 font-mono font-bold">07:00</div>
+                        <div className="text-gray-600">Inicio del ascenso</div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 shrink-0 text-forest-700 font-mono font-bold">10:30</div>
+                        <div className="text-gray-600">Llegada a la cumbre / mirador</div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 shrink-0 text-forest-700 font-mono font-bold">11:00</div>
+                        <div className="text-gray-600">Descenso</div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 shrink-0 text-forest-700 font-mono font-bold">14:00</div>
+                        <div className="text-gray-600">Regreso al punto de encuentro</div>
+                      </div>
+                    </div>
+                  </ExpandableSection>
                 </div>
               </div>
 
