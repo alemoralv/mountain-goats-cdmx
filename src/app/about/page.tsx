@@ -23,7 +23,7 @@ const TEAM_MEMBERS = [
   {
     id: 1,
     nickname: 'Alex',
-    fullName: 'Alejandro Morera',
+    fullName: 'Alejandro Morera Alvarez',
     image: '/images/team/alex.jpg',
     bio: 'Soy Alex, fundador de Mountain Goats. Mi amor por las montañas comenzó en los Alpes suizos y me trajo a México para descubrir sus volcanes. Creo firmemente que cada cumbre conquistada nos transforma. Mi misión es compartir esa transformación con nuestra comunidad.',
     instagram: '@alexmorera',
@@ -57,12 +57,9 @@ const TEAM_MEMBERS = [
 // ============================================================================
 // TEAM CARD COMPONENT
 // ============================================================================
-function TeamCard({ member, isActive }: { member: typeof TEAM_MEMBERS[0]; isActive: boolean }) {
+function TeamCard({ member }: { member: typeof TEAM_MEMBERS[0] }) {
   return (
-    <div className={cn(
-      'flex-shrink-0 w-full md:w-[350px] transition-all duration-500',
-      isActive ? 'opacity-100 scale-100' : 'opacity-40 scale-95'
-    )}>
+    <div className="flex-shrink-0 w-full md:w-[350px]">
       <div className="bg-white rounded-2xl overflow-hidden shadow-elevation-medium">
         {/* Image */}
         <div className="aspect-[4/5] relative bg-gradient-to-br from-navy-900 to-forest-900">
@@ -145,7 +142,7 @@ export default function AboutPage() {
             Conoce al equipo
           </p>
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tight text-white mb-6">
-            Los Goats
+            The Goats
           </h1>
           <p className="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
             Somos un equipo de apasionados por la montaña, guías certificados y entrenadores 
@@ -170,21 +167,25 @@ export default function AboutPage() {
           {/* Carousel */}
           <div className="relative">
             {/* Navigation Arrows */}
-            <button
-              onClick={prevSlide}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-forest-900 text-white flex items-center justify-center shadow-lg hover:bg-forest-800 transition-colors -ml-4 md:ml-0"
-              aria-label="Previous"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
+            {currentIndex > 0 && (
+              <button
+                onClick={prevSlide}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-forest-900 text-white flex items-center justify-center shadow-lg hover:bg-forest-800 transition-colors -ml-4 md:ml-0"
+                aria-label="Previous"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+            )}
             
-            <button
-              onClick={nextSlide}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-forest-900 text-white flex items-center justify-center shadow-lg hover:bg-forest-800 transition-colors -mr-4 md:mr-0"
-              aria-label="Next"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
+            {currentIndex < TEAM_MEMBERS.length - 1 && (
+              <button
+                onClick={nextSlide}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-forest-900 text-white flex items-center justify-center shadow-lg hover:bg-forest-800 transition-colors -mr-4 md:mr-0"
+                aria-label="Next"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            )}
 
             {/* Cards Container */}
             <div className="overflow-hidden mx-8 md:mx-16">
@@ -194,11 +195,10 @@ export default function AboutPage() {
                   transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 24}px))`,
                 }}
               >
-                {TEAM_MEMBERS.map((member, index) => (
+                {TEAM_MEMBERS.map((member) => (
                   <TeamCard 
                     key={member.id} 
                     member={member} 
-                    isActive={index === currentIndex}
                   />
                 ))}
               </div>
@@ -225,7 +225,7 @@ export default function AboutPage() {
           {/* Mobile: Show all cards stacked */}
           <div className="md:hidden mt-8 space-y-6">
             {TEAM_MEMBERS.map((member) => (
-              <TeamCard key={member.id} member={member} isActive={true} />
+              <TeamCard key={member.id} member={member} />
             ))}
           </div>
         </div>
@@ -307,7 +307,7 @@ export default function AboutPage() {
               <ChevronRight className="w-5 h-5" />
             </Link>
             <a
-              href="mailto:hola@mountaingoats.mx"
+              href="mailto:mountaingoatscdmx@gmail.com"
               className="inline-flex items-center gap-2 bg-navy-950 text-white font-semibold uppercase tracking-wider px-8 py-4 rounded-xl hover:bg-navy-900 transition-all"
             >
               <Mail className="w-5 h-5" />

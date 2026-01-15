@@ -9,15 +9,15 @@ const FOOTER_LINKS = {
     { label: 'Paquetes', href: '/packages' },
   ],
   company: [
-    { label: 'Los Goats', href: '/about' },
+    { label: 'The Goats', href: '/about' },
     { label: 'FAQ', href: '/faq' },
     { label: 'Contacto', href: '/contact' },
   ],
   legal: [
-    { label: 'Terms of Service', href: '/terms' },
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Waiver Policy', href: '/waiver' },
-    { label: 'Refund Policy', href: '/refunds' },
+    { label: 'Términos de Servicio', href: '/terms' },
+    { label: 'Política de Privacidad', href: '/privacy' },
+    { label: 'Política de Exención', href: '/waiver' },
+    { label: 'Política de Reembolso', href: '/refunds' },
   ],
 };
 
@@ -43,9 +43,9 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-white/70 leading-relaxed mb-6 max-w-sm">
-              Premium hiking experiences in and around Mexico City. 
-              Conquer peaks, build community, and discover the mountains 
-              that surround CDMX.
+              Experiencias premium de senderismo en la Ciudad de México y alrededores. 
+              Conquista cumbres, construye comunidad y descubre las montañas 
+              que rodean CDMX.
             </p>
             
             {/* Social Links */}
@@ -69,7 +69,7 @@ export function Footer() {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="mailto:hola@mountaingoats.mx"
+                href="mailto:mountaingoatscdmx@gmail.com"
                 className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors"
                 aria-label="Email"
               >
@@ -141,18 +141,18 @@ export function Footer() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex flex-wrap items-center gap-6 text-sm text-white/60">
               <a 
-                href="tel:+525512345678" 
+                href="tel:+525544535014" 
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                +52 55 1234 5678
+                +52 55 4453 5014
               </a>
               <a 
-                href="mailto:hola@mountaingoats.mx"
+                href="mailto:mountaingoatscdmx@gmail.com"
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                hola@mountaingoats.mx
+                mountaingoatscdmx@gmail.com
               </a>
               <span className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
@@ -168,10 +168,10 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-white/50">
             <p>
-              © {new Date().getFullYear()} Mountain Goats CDMX. All rights reserved.
+              © {new Date().getFullYear()} Mountain Goats CDMX. Todos los derechos reservados.
             </p>
             <p>
-              Built with 🏔️ for the hiking community
+              Hecho con 🏔️ para la comunidad de senderismo
             </p>
           </div>
         </div>
