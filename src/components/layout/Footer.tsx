@@ -3,16 +3,15 @@ import { Mountain, Instagram, Facebook, Mail, Phone, MapPin } from 'lucide-react
 
 const FOOTER_LINKS = {
   explore: [
-    { label: 'Upcoming Hikes', href: '/hikes' },
-    { label: 'Calendar', href: '/calendar' },
-    { label: 'Training Programs', href: '/training' },
-    { label: 'Packages', href: '/packages' },
+    { label: 'Próximas Caminatas', href: '/hikes' },
+    { label: 'Calendario', href: '/calendar' },
+    { label: 'Entrenamiento', href: '/training' },
+    { label: 'Paquetes', href: '/packages' },
   ],
   company: [
-    { label: 'About The Goats', href: '/about' },
-    { label: 'Our Guides', href: '/guides' },
+    { label: 'Los Goats', href: '/about' },
     { label: 'FAQ', href: '/faq' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Contacto', href: '/contact' },
   ],
   legal: [
     { label: 'Terms of Service', href: '/terms' },
@@ -82,7 +81,7 @@ export function Footer() {
           {/* Explore Links */}
           <div>
             <h4 className="font-display text-sm font-bold uppercase tracking-wider mb-6">
-              Explore
+              Explorar
             </h4>
             <ul className="space-y-3">
               {FOOTER_LINKS.explore.map((link) => (
@@ -101,7 +100,7 @@ export function Footer() {
           {/* Company Links */}
           <div>
             <h4 className="font-display text-sm font-bold uppercase tracking-wider mb-6">
-              Company
+              Compañía
             </h4>
             <ul className="space-y-3">
               {FOOTER_LINKS.company.map((link) => (
