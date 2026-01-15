@@ -39,8 +39,8 @@ export const viewport: Viewport = {
 // ============================================================================
 const siteConfig = {
   name: 'Mountain Goats CDMX',
-  title: 'Mountain Goats CDMX | Expediciones de Alta Montaña',
-  description: 'Expediciones guiadas de alta montaña, entrenamiento digital y comunidad de élite en la Ciudad de México.',
+  title: 'Mountain Goats CDMX | Conquista las Montañas de CDMX y alrededores',
+  description: 'Entrenamiento. Comunidad. Aventura.',
   url: process.env.NEXT_PUBLIC_BASE_URL || 'https://mountaingoats.mx',
   ogImage: '/og-image.jpg',
 };
