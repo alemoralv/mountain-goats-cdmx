@@ -18,6 +18,7 @@ import {
 import { createClient } from '@/lib/supabase/server';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { DeleteAccountSection } from '@/components/DeleteAccountSection';
 import { signOut } from '@/app/login/actions';
 import { cn } from '@/lib/utils';
 import { formatDate, formatPrice, getInitials } from '@/lib/utils';
@@ -479,6 +480,9 @@ export default async function DashboardPage() {
               )}
             </section>
           )}
+
+          {/* Delete Account Section */}
+          <DeleteAccountSection />
         </div>
       </main>
 
