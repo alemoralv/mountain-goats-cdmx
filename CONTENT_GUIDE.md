@@ -832,6 +832,73 @@ npx vercel deploy --prod --yes --force
 
 ---
 
+## User Onboarding & Fitness Assessment
+
+### How It Works
+
+When a new user signs up, they are automatically redirected to an **onboarding questionnaire** that collects:
+
+1. **Personal Information**: Name, age
+2. **Fitness Level**: Running capacity, hiking experience, strength training
+3. **Availability**: Training days, session duration preferences
+4. **Target Hike**: Name, difficulty level, distance, elevation, date
+
+### Calculated Training Data
+
+The system automatically calculates:
+
+- **Fitness Level**: Beginner, Intermediate, or Advanced (based on inputs)
+- **Training Start Date**: Today's date
+- **Recommended Training Weeks**: 4-12 weeks based on fitness + hike difficulty
+- **First Herd Run Date**: Next Saturday (biweekly pattern)
+- **Training Phases**:
+  - Base Building Phase
+  - Strength Building Phase
+  - Peak Training Phase
+  - Taper Phase (1-2 weeks before hike)
+- **Recovery Recommendations**: Age-adjusted recovery notes
+
+### Email Notifications
+
+When a user completes their assessment, an email is automatically sent to the admin (`mountaingoatscdmx@gmail.com`) with:
+
+- Complete user profile and fitness data
+- Calculated training plan
+- Personalized recommendations
+
+### Required Environment Variables
+
+Add these to your `.env.local` file:
+
+```bash
+# Resend Email API (get from https://resend.com/api-keys)
+RESEND_API_KEY=re_...
+
+# Admin email to receive training plan notifications
+ADMIN_EMAIL=mountaingoatscdmx@gmail.com
+```
+
+**Note**: If `RESEND_API_KEY` is not configured, the system will log the email content to the console instead (useful for development).
+
+### Database
+
+The fitness assessment data is stored in the `fitness_assessments` table. Run the migration:
+
+```sql
+-- Located at: supabase/migrations/001_fitness_assessments.sql
+```
+
+### Files
+
+| Component | Location |
+|-----------|----------|
+| Onboarding Page | `src/app/onboarding/page.tsx` |
+| API Route | `src/app/api/fitness-assessment/route.ts` |
+| Types | `src/types/database.ts` (FitnessAssessment, CalculatedTrainingPlan) |
+| Migration | `supabase/migrations/001_fitness_assessments.sql` |
+
+---
+
 *Last updated: January 2026*
 *Mountain Goats CDMX - Hiking experiences in Mexico City*
 

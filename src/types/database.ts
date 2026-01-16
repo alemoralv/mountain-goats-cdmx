@@ -13,6 +13,14 @@
 
 export type HikingLevel = 'Beginner' | 'Intermediate' | 'Goat';
 
+export type HikeDifficultyLevel = '1' | '2' | '3' | '4';
+
+export type SessionDuration = 'short' | 'medium' | 'long';
+
+export type StrengthTrainingType = 'legs_core' | 'upper_body' | 'full_body' | 'none';
+
+export type TrainingDay = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+
 export type PackageType = 'hike' | 'training' | 'bundle';
 
 export type PaymentStatus = 'pending' | 'completed' | 'failed' | 'refunded' | 'cancelled';
@@ -278,6 +286,95 @@ export interface Waiver {
 }
 
 /**
+ * User fitness assessment collected during onboarding
+ */
+export interface FitnessAssessment {
+  id: string; // UUID
+  created_at: string;
+  updated_at: string;
+  
+  // User relationship
+  user_id: string; // FK -> profiles.id
+  
+  // Personal Information
+  first_name: string;
+  age: number;
+  
+  // Current Fitness Level
+  max_running_distance_km: number;
+  comfortable_pace: string; // e.g., "6:30", "7:00"
+  hikes_last_3_months: number;
+  typical_elevation_gain_m: number;
+  strength_training_frequency: number; // 0-7
+  strength_training_types: StrengthTrainingType[];
+  
+  // Availability & Preferences
+  available_days_per_week: number;
+  preferred_training_days: TrainingDay[];
+  session_duration: SessionDuration;
+  
+  // Target Hike Information
+  target_hike_name: string;
+  target_hike_level: HikeDifficultyLevel;
+  target_hike_distance_km: number;
+  target_hike_elevation_m: number;
+  target_hike_date: string; // ISO date string
+  
+  // Calculated (stored)
+  weeks_until_hike: number;
+  
+  // Email tracking
+  training_plan_sent_at: string | null;
+  training_plan_email: string | null;
+}
+
+/**
+ * Calculated training plan data (not stored, sent via email)
+ */
+export interface CalculatedTrainingPlan {
+  // User info
+  userName: string;
+  userEmail: string;
+  userAge: number;
+  
+  // Assessment summary
+  fitnessLevel: 'beginner' | 'intermediate' | 'advanced';
+  maxRunningDistanceKm: number;
+  comfortablePace: string;
+  hikesLast3Months: number;
+  strengthFrequency: number;
+  
+  // Target hike
+  targetHikeName: string;
+  targetHikeLevel: HikeDifficultyLevel;
+  targetHikeDistanceKm: number;
+  targetHikeElevationM: number;
+  targetHikeDate: string;
+  
+  // Calculated dates
+  trainingStartDate: string;
+  weeksUntilHike: number;
+  recommendedTrainingWeeks: number;
+  firstHerdRunDate: string; // First Saturday biweekly
+  
+  // Training phases
+  phases: {
+    baseBuildingPhase: { startWeek: number; endWeek: number };
+    strengthBuildingPhase: { startWeek: number; endWeek: number };
+    peakTrainingPhase: { startWeek: number; endWeek: number };
+    taperPhase: { startWeek: number; endWeek: number };
+  };
+  
+  // Schedule
+  availableDays: TrainingDay[];
+  sessionDuration: SessionDuration;
+  
+  // Notes/recommendations
+  recoveryNotes: string[];
+  recommendations: string[];
+}
+
+/**
  * User review for a completed hike
  */
 export interface Review {
@@ -434,6 +531,16 @@ export type ReviewInsert = Omit<Review, 'id' | 'created_at' | 'updated_at' | 'is
  */
 export type ReviewUpdate = Partial<Pick<Review, 'title' | 'content' | 'rating' | 'rating_difficulty_accuracy' | 'rating_guide_quality' | 'rating_value' | 'photo_urls'>>;
 
+/**
+ * Data required to create a fitness assessment
+ */
+export type FitnessAssessmentInsert = Omit<FitnessAssessment, 'id' | 'created_at' | 'updated_at' | 'weeks_until_hike' | 'training_plan_sent_at' | 'training_plan_email'>;
+
+/**
+ * Data allowed when updating a fitness assessment
+ */
+export type FitnessAssessmentUpdate = Partial<Omit<FitnessAssessment, 'id' | 'created_at' | 'updated_at' | 'user_id' | 'weeks_until_hike'>>;
+
 // ============================================================================
 // SUPABASE DATABASE TYPE (for use with createClient<Database>)
 // ============================================================================
@@ -481,6 +588,11 @@ export interface Database {
         Insert: UserTrainingFileInsert;
         Update: UserTrainingFileUpdate;
       };
+      fitness_assessments: {
+        Row: FitnessAssessment;
+        Insert: FitnessAssessmentInsert;
+        Update: FitnessAssessmentUpdate;
+      };
     };
     Enums: {
       hiking_level: HikingLevel;
@@ -489,6 +601,8 @@ export interface Database {
       route_type: RouteType;
       gender: Gender;
       training_file_category: TrainingFileCategory;
+      hike_difficulty_level: HikeDifficultyLevel;
+      session_duration: SessionDuration;
     };
   };
 }

@@ -116,8 +116,9 @@ export async function signUp(
 
   // For development, auto-confirm is usually enabled
   // In production with email confirmation, show success message
+  // Redirect new users to onboarding to complete their fitness assessment
   revalidatePath('/', 'layout');
-  redirect('/dashboard');
+  redirect('/onboarding');
 }
 
 /**
