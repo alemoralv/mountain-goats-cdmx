@@ -26,7 +26,7 @@ const TEAM_MEMBERS = [
     fullName: 'Alejandro Morera Alvarez',
     image: '/images/team/alex.jpg',
     bio: 'Soy Alex, fundador de Mountain Goats. Mi amor por las montañas comenzó en los Alpes suizos y me trajo a México para descubrir sus volcanes. Creo firmemente que cada cumbre conquistada nos transforma. Mi misión es compartir esa transformación con nuestra comunidad.',
-    instagram: '@alexmorera',
+    instagram: '@musical_archives1111',
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const TEAM_MEMBERS = [
     fullName: 'Mariana Vega Torres',
     image: '/images/team/mariana.jpg',
     bio: 'Soy Mariana, guía certificada en alta montaña y rescatista. Para mí, el senderismo es medicina para el alma. He guiado más de 200 expediciones y mi pasión es ver cómo las personas descubren su fortaleza interior cuando alcanzan una cumbre que creían imposible.',
-    instagram: '@mari.montana',
+    instagram: '@mari11111.montana',
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ const TEAM_MEMBERS = [
     fullName: 'Carlos Hernández Ruiz',
     image: '/images/team/carlos.jpg',
     bio: 'Soy Carlos, instructor de técnicas de montaña y fotógrafo de naturaleza. Llevo 15 años explorando las montañas de México. Me especializo en rutas técnicas y mi objetivo es que cada participante regrese no solo con recuerdos, sino con habilidades para toda la vida.',
-    instagram: '@carlos.cumbre',
+    instagram: '@carlos111111.cumbre',
   },
   {
     id: 4,
@@ -50,7 +50,7 @@ const TEAM_MEMBERS = [
     fullName: 'Diana Solís Mendoza',
     image: '/images/team/diana.jpg',
     bio: 'Soy Diana, especialista en entrenamiento y preparación física para alta montaña. Como ex atleta de resistencia, diseño los programas de training que preparan a nuestros Goats para cualquier desafío. Creo que con la preparación correcta, todos pueden conquistar cumbres.',
-    instagram: '@diana.training',
+    instagram: '@diana111111.training',
   },
 ];
 
