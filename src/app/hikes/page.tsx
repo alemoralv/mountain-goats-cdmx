@@ -1,4 +1,5 @@
 'use client';
+// Hikes listing page - Mountain Goats CDMX
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
