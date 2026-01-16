@@ -10,10 +10,11 @@ A complete guide to editing, updating, and managing all content on the Mountain 
 2. [Project Structure Overview](#project-structure-overview)
 3. [Pages & Where to Edit Content](#pages--where-to-edit-content)
 4. [Images Guide](#images-guide)
-5. [Database & Supabase](#database--supabase)
-6. [Styling Cheat Sheet](#styling-cheat-sheet)
-7. [Common Tasks](#common-tasks)
-8. [Troubleshooting](#troubleshooting)
+5. [Legal Documents & PDFs](#legal-documents--pdfs)
+6. [Database & Supabase](#database--supabase)
+7. [Styling Cheat Sheet](#styling-cheat-sheet)
+8. [Common Tasks](#common-tasks)
+9. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -37,9 +38,11 @@ npm run dev
 |--------------|---------------|
 | Hikes data | `src/app/hikes/page.tsx` → `SAMPLE_HIKES` array |
 | Packages info | `src/app/packages/page.tsx` → `PACKAGES` array |
+| Training content | `src/app/training/page.tsx` → `TRAINING_PILLARS`, `TRAINING_LEVELS`, etc. |
 | Team members | `src/app/about/page.tsx` → `TEAM_MEMBERS` array |
 | Navigation links | `src/components/layout/Navbar.tsx` → `NAV_LINKS` |
 | Footer links | `src/components/layout/Footer.tsx` → `FOOTER_LINKS` |
+| Legal PDFs & FAQ | `public/docs/` folder |
 | Global colors | `tailwind.config.ts` |
 | Site fonts | `src/app/layout.tsx` |
 
@@ -50,11 +53,17 @@ npm run dev
 ```
 GOATS_CDMX/
 ├── public/
-│   └── images/
-│       ├── hikes/           # Hike images (cards, maps, elevation charts)
-│       ├── team/            # Team member photos
-│       ├── branding/        # Logos and brand assets
-│       └── hero-pattern.svg # Background pattern
+│   ├── images/
+│   │   ├── hikes/           # Hike images (cards, maps, elevation charts)
+│   │   ├── team/            # Team member photos
+│   │   ├── branding/        # Logos and brand assets
+│   │   └── hero-pattern.svg # Background pattern
+│   └── docs/                # Legal PDFs and FAQ documents
+│       ├── MG_tds.pdf       # Términos de Servicio
+│       ├── MG_pdp.pdf       # Política de Privacidad
+│       ├── MG_pde.pdf       # Política de Exención
+│       ├── MG_pdr.pdf       # Política de Reembolso
+│       └── MG_faq.pdf       # Preguntas Frecuentes (FAQ)
 ├── src/
 │   ├── app/
 │   │   ├── page.tsx         # Homepage
@@ -63,6 +72,7 @@ GOATS_CDMX/
 │   │   │   ├── page.tsx     # Hikes listing page
 │   │   │   └── [id]/page.tsx # Individual hike detail page
 │   │   ├── packages/page.tsx # Packages page
+│   │   ├── training/page.tsx # Pre-Training program page
 │   │   ├── calendar/page.tsx # Calendar page
 │   │   ├── login/page.tsx    # Login/Register page
 │   │   ├── profile/page.tsx  # User profile page
@@ -271,6 +281,80 @@ const FOOTER_LINKS = {
 
 ---
 
+### 6. Training Page (`src/app/training/page.tsx`)
+
+**Location:** `src/app/training/page.tsx`
+
+The pre-training program page explaining the training methodology, levels, and content.
+
+**Key data arrays to edit:**
+
+```tsx
+// Training Pillars - 4 core training areas (around line 30)
+const TRAINING_PILLARS = [
+  {
+    icon: Heart,                          // Lucide icon
+    title: 'Cardio & Resistencia',
+    description: 'Exercise description...',
+    color: 'text-red-500',                // Icon color
+    bgColor: 'bg-red-50',                 // Background color
+  },
+  // ... more pillars
+];
+
+// Training Levels - difficulty-based programs (around line 55)
+const TRAINING_LEVELS = [
+  {
+    level: 'Básico',
+    duration: '1-2 semanas',
+    description: 'Para hikes de dificultad 1-3',
+    hikes: ['Desierto de los Leones', 'El Tepozteco'],  // Example hikes
+    color: 'bg-emerald-500',                            // Header color
+    features: [
+      'Cardio básico (caminata, trote suave)',
+      // ... more features
+    ],
+  },
+  // ... more levels
+];
+
+// Content Types - what's included (around line 95)
+const CONTENT_TYPES = [
+  {
+    icon: Video,
+    title: 'Videos HD',
+    description: 'Tutoriales paso a paso...',
+    count: '20+',
+  },
+  // ... more content types
+];
+
+// Testimonials (around line 115)
+const TESTIMONIALS = [
+  {
+    quote: 'El pre-training marcó la diferencia...',
+    author: 'Roberto M.',
+    hike: 'Nevado de Toluca',
+  },
+  // ... more testimonials
+];
+```
+
+**To update FAQ questions (around line 450):**
+```tsx
+{[
+  {
+    question: '¿Necesito experiencia previa para el Pre-Training?',
+    answer: 'No, el programa está diseñado para todos los niveles...',
+  },
+  // Add or edit questions here
+].map((faq, index) => (
+  // ...
+))}
+```
+
+---
+
 ## Images Guide
 
 ### Image Locations
@@ -316,6 +400,61 @@ For team:
 If an image doesn't exist, the components show placeholder graphics. To add the actual image later, just:
 1. Create the image file with the correct name
 2. The site will automatically use it (no code changes needed if paths match)
+
+---
+
+## Legal Documents & PDFs
+
+### Location
+
+All legal documents and FAQ PDFs are stored in: `public/docs/`
+
+### File Naming Convention
+
+| Document | File Name |
+|----------|-----------|
+| Términos de Servicio | `MG_tds.pdf` |
+| Política de Privacidad | `MG_pdp.pdf` |
+| Política de Exención | `MG_pde.pdf` |
+| Política de Reembolso | `MG_pdr.pdf` |
+| Preguntas Frecuentes (FAQ) | `MG_faq.pdf` |
+
+### How to Upload/Update PDFs
+
+1. **Create your PDF** with the correct naming convention
+2. **Place the file** in `public/docs/` folder
+3. **Deploy the site** using the standard deploy command:
+   ```bash
+   git add . && git commit -m "Update legal docs" && git push && npx vercel deploy --prod --yes --force
+   ```
+
+### How Links Work
+
+The footer links in `src/components/layout/Footer.tsx` automatically point to these PDF files:
+
+```tsx
+const FOOTER_LINKS = {
+  // ...
+  legal: [
+    { label: 'Términos de Servicio', href: '/docs/MG_tds.pdf' },
+    { label: 'Política de Privacidad', href: '/docs/MG_pdp.pdf' },
+    { label: 'Política de Exención', href: '/docs/MG_pde.pdf' },
+    { label: 'Política de Reembolso', href: '/docs/MG_pdr.pdf' },
+  ],
+  company: [
+    // ...
+    { label: 'FAQ', href: '/docs/MG_faq.pdf' },
+  ],
+};
+```
+
+PDFs open in a **new browser tab** automatically.
+
+### Important Notes
+
+- **Do not rename files** - the links in the footer expect these exact file names
+- **File names are case-sensitive** - use exactly `MG_tds.pdf`, not `mg_tds.pdf`
+- **No code changes needed** - just replace the PDF files and redeploy
 
 ---
 
@@ -644,16 +783,51 @@ export default function YourPage() {
 
 ```
 MOST COMMONLY EDITED FILES:
-├── src/app/hikes/page.tsx        ← Hike data (SAMPLE_HIKES)
-├── src/app/packages/page.tsx     ← Package data (PACKAGES)
-├── src/app/about/page.tsx        ← Team data (TEAM_MEMBERS)
+├── src/app/
+│   ├── hikes/page.tsx            ← Hike data (SAMPLE_HIKES)
+│   ├── packages/page.tsx         ← Package data (PACKAGES)
+│   ├── training/page.tsx         ← Training content (TRAINING_PILLARS, TRAINING_LEVELS)
+│   └── about/page.tsx            ← Team data (TEAM_MEMBERS)
 ├── src/components/layout/
 │   ├── Navbar.tsx                ← Navigation links
 │   └── Footer.tsx                ← Footer links, contact info
-├── public/images/
-│   ├── hikes/                    ← Hike images
-│   └── team/                     ← Team photos
+├── public/
+│   ├── images/
+│   │   ├── hikes/                ← Hike images
+│   │   └── team/                 ← Team photos
+│   └── docs/                     ← Legal PDFs & FAQ
+│       ├── MG_tds.pdf            ← Términos de Servicio
+│       ├── MG_pdp.pdf            ← Política de Privacidad
+│       ├── MG_pde.pdf            ← Política de Exención
+│       ├── MG_pdr.pdf            ← Política de Reembolso
+│       └── MG_faq.pdf            ← FAQ
 └── tailwind.config.ts            ← Colors, fonts (advanced)
+```
+
+---
+
+## Deployment Commands
+
+### Full Deploy Pipeline
+
+```powershell
+git add . ; git commit -m "Your changes here" ; git push ; npx vercel deploy --prod --yes --force
+```
+
+### Step by Step
+
+```bash
+# 1. Stage all changes
+git add .
+
+# 2. Commit with a descriptive message
+git commit -m "Add new hike: Nevado de Toluca"
+
+# 3. Push to GitHub
+git push
+
+# 4. Deploy to Vercel (production)
+npx vercel deploy --prod --yes --force
 ```
 
 ---
