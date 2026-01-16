@@ -3,21 +3,21 @@ import { Mountain, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 const FOOTER_LINKS = {
   explore: [
-    { label: 'Próximas Caminatas', href: '/hikes' },
-    { label: 'Calendario', href: '/calendar' },
-    { label: 'Entrenamiento', href: '/training' },
-    { label: 'Paquetes', href: '/packages' },
+    { label: 'Próximas Caminatas', href: '/hikes', external: false },
+    { label: 'Calendario', href: '/calendar', external: false },
+    { label: 'Entrenamiento', href: '/training', external: false },
+    { label: 'Paquetes', href: '/packages', external: false },
   ],
   company: [
-    { label: 'The Goats', href: '/about' },
-    { label: 'FAQ', href: '/faq' },
-    { label: 'Contacto', href: '/contact' },
+    { label: 'The Goats', href: '/about', external: false },
+    { label: 'FAQ', href: '/docs/MG_faq.pdf', external: true },
+    { label: 'Contacto', href: '/contact', external: false },
   ],
   legal: [
-    { label: 'Términos de Servicio', href: '/terms' },
-    { label: 'Política de Privacidad', href: '/privacy' },
-    { label: 'Política de Exención', href: '/waiver' },
-    { label: 'Política de Reembolso', href: '/refunds' },
+    { label: 'Términos de Servicio', href: '/docs/MG_tds.pdf', external: true },
+    { label: 'Política de Privacidad', href: '/docs/MG_pdp.pdf', external: true },
+    { label: 'Política de Exención', href: '/docs/MG_pde.pdf', external: true },
+    { label: 'Política de Reembolso', href: '/docs/MG_pdr.pdf', external: true },
   ],
 };
 
@@ -96,12 +96,23 @@ export function Footer() {
             <ul className="space-y-3">
               {FOOTER_LINKS.company.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 hover:text-white transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/70 hover:text-white transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-white/70 hover:text-white transition-colors text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -115,12 +126,14 @@ export function Footer() {
             <ul className="space-y-3">
               {FOOTER_LINKS.legal.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <a
                     href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-white/70 hover:text-white transition-colors text-sm"
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
