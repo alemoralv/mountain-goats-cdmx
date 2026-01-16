@@ -292,8 +292,11 @@ export default function ProfilePage() {
         .eq('id', user.id)
         .single();
 
-      if (profileData) {
-        setProfile({ ...profileData, email: user.email } as ProfileData);
+      if (profileData && typeof profileData === 'object') {
+        setProfile({ 
+          ...(profileData as Record<string, unknown>), 
+          email: user.email 
+        } as ProfileData);
       }
 
       // Fetch bookings with hikes
@@ -338,7 +341,9 @@ export default function ProfilePage() {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-          if (data) setProfile({ ...data, email: user.email } as ProfileData);
+          if (data && typeof data === 'object') {
+            setProfile({ ...(data as Record<string, unknown>), email: user.email } as ProfileData);
+          }
         }
       };
       refetch();
