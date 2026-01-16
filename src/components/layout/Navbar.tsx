@@ -33,41 +33,85 @@ export function Navbar() {
   // Fetch user session on mount
   useEffect(() => {
     const supabase = createClient();
+    let isMounted = true;
     
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setUser({ id: session.user.id, email: session.user.email || '' });
-        // Fetch profile
-        supabase
-          .from('profiles')
-          .select('nickname, full_name, avatar_url')
-          .eq('id', session.user.id)
-          .single()
-          .then(({ data }) => {
-            if (data) setProfile(data);
-          });
+    // Get initial session with timeout
+    const fetchSession = async () => {
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (!isMounted) return;
+        
+        if (sessionError) {
+          console.error('Session error:', sessionError);
+          setIsLoading(false);
+          return;
+        }
+        
+        if (session?.user) {
+          setUser({ id: session.user.id, email: session.user.email || '' });
+          
+          // Fetch profile with error handling
+          try {
+            const { data, error: profileError } = await supabase
+              .from('profiles')
+              .select('nickname, full_name, avatar_url')
+              .eq('id', session.user.id)
+              .single();
+            
+            if (!isMounted) return;
+            
+            if (!profileError && data) {
+              setProfile(data);
+            }
+          } catch (e) {
+            console.error('Profile fetch error:', e);
+          }
+        }
+        
+        if (isMounted) setIsLoading(false);
+      } catch (e) {
+        console.error('Auth error:', e);
+        if (isMounted) setIsLoading(false);
       }
-      setIsLoading(false);
-    });
+    };
+
+    fetchSession();
+
+    // Timeout fallback - stop loading after 3 seconds regardless
+    const timeout = setTimeout(() => {
+      if (isMounted && isLoading) {
+        setIsLoading(false);
+      }
+    }, 3000);
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!isMounted) return;
+      
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email || '' });
-        const { data } = await supabase
-          .from('profiles')
-          .select('nickname, full_name, avatar_url')
-          .eq('id', session.user.id)
-          .single();
-        if (data) setProfile(data);
+        try {
+          const { data } = await supabase
+            .from('profiles')
+            .select('nickname, full_name, avatar_url')
+            .eq('id', session.user.id)
+            .single();
+          if (isMounted && data) setProfile(data);
+        } catch (e) {
+          console.error('Profile fetch error:', e);
+        }
       } else {
         setUser(null);
         setProfile(null);
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      clearTimeout(timeout);
+      subscription.unsubscribe();
+    };
   }, []);
 
   // Handle scroll
