@@ -652,24 +652,32 @@ export async function POST(request: NextRequest) {
       const emailHtml = generateEmailHtml(trainingPlan);
       
       if (resend) {
-        // Send via Resend if configured
-        const { error: emailError } = await resend.emails.send({
-          from: 'Mountain Goats <noreply@mountaingoatscdmx.com>',
+        console.log('📧 Attempting to send email via Resend...');
+        console.log(`   To: ${ADMIN_EMAIL}`);
+        console.log(`   Subject: 🏔️ Nuevo Registro: ${body.firstName} - ${body.targetHikeName}`);
+        
+        // Use Resend's default domain (onboarding@resend.dev) for testing
+        // Once you verify your own domain in Resend, change this to your domain
+        const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'Mountain Goats <onboarding@resend.dev>';
+        
+        const { data: emailData, error: emailError } = await resend.emails.send({
+          from: FROM_EMAIL,
           to: ADMIN_EMAIL,
           subject: `🏔️ Nuevo Registro: ${body.firstName} - ${body.targetHikeName}`,
           html: emailHtml,
         });
 
         if (emailError) {
-          console.error('Resend email error:', emailError);
+          console.error('❌ Resend email error:', JSON.stringify(emailError, null, 2));
           // Don't fail the request if email fails - data is saved
         } else {
-          console.log(`✅ Email sent to ${ADMIN_EMAIL} for ${body.firstName}`);
+          console.log(`✅ Email sent successfully!`);
+          console.log(`   Email ID: ${emailData?.id}`);
         }
       } else {
         // Log to console if Resend not configured (development mode)
         console.log('='.repeat(80));
-        console.log('📧 EMAIL WOULD BE SENT (Resend not configured)');
+        console.log('📧 EMAIL WOULD BE SENT (RESEND_API_KEY not configured)');
         console.log('='.repeat(80));
         console.log(`To: ${ADMIN_EMAIL}`);
         console.log(`Subject: 🏔️ Nuevo Registro: ${body.firstName} - ${body.targetHikeName}`);
@@ -679,7 +687,7 @@ export async function POST(request: NextRequest) {
         console.log('='.repeat(80));
       }
     } catch (emailErr) {
-      console.error('Email send error:', emailErr);
+      console.error('❌ Email send exception:', emailErr);
       // Don't fail the request if email fails
     }
 
