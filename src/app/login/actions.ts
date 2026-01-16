@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/server';
 export interface AuthState {
   error: string | null;
   success: boolean;
+  message?: string; // For success messages like "confirm your email"
 }
 
 /**
@@ -57,7 +58,7 @@ export async function signIn(
     return { error: 'Email y contraseña son requeridos', success: false };
   }
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data: authData, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
@@ -68,6 +69,22 @@ export async function signIn(
       error: getAuthErrorMessage(error.message), 
       success: false 
     };
+  }
+
+  // Check if user has completed fitness assessment
+  if (authData.user) {
+    const { data: assessment } = await supabase
+      .from('fitness_assessments')
+      .select('id')
+      .eq('user_id', authData.user.id)
+      .single();
+
+    revalidatePath('/', 'layout');
+    
+    // If no assessment, redirect to onboarding
+    if (!assessment) {
+      redirect('/onboarding');
+    }
   }
 
   revalidatePath('/', 'layout');
@@ -114,11 +131,12 @@ export async function signUp(
     };
   }
 
-  // For development, auto-confirm is usually enabled
-  // In production with email confirmation, show success message
-  // Redirect new users to onboarding to complete their fitness assessment
-  revalidatePath('/', 'layout');
-  redirect('/onboarding');
+  // Show success message - user needs to confirm email before logging in
+  return { 
+    error: null, 
+    success: true,
+    message: `¡Cuenta creada! Revisa tu email (${email}) para confirmar tu cuenta. Después podrás iniciar sesión.`
+  };
 }
 
 /**

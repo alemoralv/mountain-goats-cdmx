@@ -123,6 +123,7 @@ export default function LoginPage() {
   const [signUpState, signUpAction] = useFormState(signUp, initialState);
 
   const currentError = activeTab === 'signin' ? signInState.error : signUpState.error;
+  const signUpSuccess = signUpState.success && signUpState.message;
 
   return (
     <div className="min-h-screen flex">
@@ -250,8 +251,18 @@ export default function LoginPage() {
             </button>
           </div>
 
+          {/* Success Message (after signup) */}
+          {signUpSuccess && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
+              <p className="text-sm text-green-700 font-medium">✅ {signUpState.message}</p>
+              <p className="text-xs text-green-600 mt-1">
+                Una vez confirmado tu email, inicia sesión aquí.
+              </p>
+            </div>
+          )}
+
           {/* Error Message */}
-          {currentError && (
+          {currentError && !signUpSuccess && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
               <p className="text-sm text-red-600">{currentError}</p>
             </div>

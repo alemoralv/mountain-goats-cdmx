@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -22,6 +22,9 @@ import type {
   StrengthTrainingType, 
   TrainingDay 
 } from '@/types/database';
+
+// Local storage key for saving form data
+const STORAGE_KEY = 'mg_onboarding_form';
 
 // ============================================================================
 // TYPES
@@ -529,6 +532,28 @@ export default function OnboardingPage() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Load saved form data from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setFormData(prev => ({ ...prev, ...parsed }));
+      }
+    } catch (e) {
+      console.error('Error loading saved form data:', e);
+    }
+  }, []);
+
+  // Save form data to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+    } catch (e) {
+      console.error('Error saving form data:', e);
+    }
+  }, [formData]);
+
   const updateFormData = (updates: Partial<FormData>) => {
     setFormData(prev => ({ ...prev, ...updates }));
   };
@@ -584,7 +609,19 @@ export default function OnboardingPage() {
       const data = await response.json();
 
       if (!response.ok) {
+        // If unauthorized, redirect to login
+        if (response.status === 401) {
+          router.push('/login');
+          return;
+        }
         throw new Error(data.error || 'Error al enviar el formulario');
+      }
+
+      // Clear saved form data on success
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {
+        console.error('Error clearing saved form data:', e);
       }
 
       setSubmitStatus('success');
@@ -703,7 +740,7 @@ export default function OnboardingPage() {
           {submitStatus === 'error' && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-              <div>
+              <div className="flex-1">
                 <p className="text-sm font-medium text-red-800">Error al enviar</p>
                 <p className="text-sm text-red-600">{errorMessage}</p>
               </div>
