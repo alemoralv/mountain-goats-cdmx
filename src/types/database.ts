@@ -43,21 +43,63 @@ export interface GeoCoordinates {
 // ============================================================================
 
 /**
+ * Gender options for user profiles
+ */
+export type Gender = 'male' | 'female' | 'other' | 'prefer_not_to_say';
+
+/**
  * User profile linked to Supabase auth.users
+ * Privacy Note:
+ * - Public: nickname, avatar_url, hiking_level, bio
+ * - Private: full_name, gender, date_of_birth, emergency_contact, phone
  */
 export interface Profile {
   id: string; // UUID - references auth.users(id)
-  full_name: string | null;
+  full_name: string | null; // PRIVATE
+  nickname: string | null; // PUBLIC - display name
   avatar_url: string | null;
   hiking_level: HikingLevel;
-  emergency_contact: EmergencyContact | null;
-  phone: string | null;
-  date_of_birth: string | null; // ISO date string
+  gender: Gender | null; // PRIVATE
+  emergency_contact: EmergencyContact | null; // PRIVATE
+  phone: string | null; // PRIVATE
+  date_of_birth: string | null; // PRIVATE - ISO date string
   bio: string | null;
+  show_real_name: boolean; // Whether to show real name publicly
+  
+  // Stats
   total_hikes_completed: number;
-  total_elevation_gained: number;
+  total_elevation_gained: number; // in meters
+  total_distance_km: number; // in kilometers
+  total_duration_hours: number; // in hours
+  
   created_at: string; // ISO timestamp
   updated_at: string; // ISO timestamp
+}
+
+/**
+ * Training file categories
+ */
+export type TrainingFileCategory = 'general' | 'workout' | 'nutrition' | 'technique' | 'medical';
+
+/**
+ * User-specific training files uploaded by admins
+ */
+export interface UserTrainingFile {
+  id: string; // UUID
+  created_at: string;
+  updated_at: string;
+  
+  user_id: string; // FK -> profiles.id
+  
+  title: string;
+  description: string | null;
+  file_url: string;
+  file_type: string; // pdf, video, image, document
+  file_size_bytes: number | null;
+  
+  category: TrainingFileCategory;
+  uploaded_by: string | null; // Admin who uploaded
+  sort_order: number;
 }
 
 /**
@@ -327,12 +369,22 @@ export interface HikeWithStats extends Hike {
 /**
  * Data required to create a new profile
  */
-export type ProfileInsert = Pick<Profile, 'id'> & Partial<Omit<Profile, 'id' | 'created_at' | 'updated_at'>>;
+export type ProfileInsert = Pick<Profile, 'id'> & Partial<Omit<Profile, 'id' | 'created_at' | 'updated_at' | 'total_hikes_completed' | 'total_elevation_gained' | 'total_distance_km' | 'total_duration_hours'>>;
 
 /**
  * Data allowed when updating a profile
  */
-export type ProfileUpdate = Partial<Omit<Profile, 'id' | 'created_at' | 'updated_at'>>;
+export type ProfileUpdate = Partial<Omit<Profile, 'id' | 'created_at' | 'updated_at' | 'total_hikes_completed' | 'total_elevation_gained' | 'total_distance_km' | 'total_duration_hours'>>;
+
+/**
+ * Data required to create a user training file
+ */
+export type UserTrainingFileInsert = Omit<UserTrainingFile, 'id' | 'created_at' | 'updated_at'>;
+
+/**
+ * Data allowed when updating a user training file
+ */
+export type UserTrainingFileUpdate = Partial<Omit<UserTrainingFile, 'id' | 'created_at' | 'updated_at' | 'user_id'>>;
 
 /**
  * Data required to create a new hike
@@ -424,12 +476,19 @@ export interface Database {
         Insert: ReviewInsert;
         Update: ReviewUpdate;
       };
+      user_training_files: {
+        Row: UserTrainingFile;
+        Insert: UserTrainingFileInsert;
+        Update: UserTrainingFileUpdate;
+      };
     };
     Enums: {
       hiking_level: HikingLevel;
       package_type: PackageType;
       payment_status: PaymentStatus;
       route_type: RouteType;
+      gender: Gender;
+      training_file_category: TrainingFileCategory;
     };
   };
 }
