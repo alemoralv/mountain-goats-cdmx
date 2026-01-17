@@ -25,7 +25,7 @@ const TEAM_MEMBERS = [
     nickname: 'Alex',
     fullName: 'Alejandro Morera',
     image: '/images/team/alex.jpg',
-    bio: 'Soy Alex, fundador de Mountain Goats. Mi amor por las montañas comenzó en Alemania y me trajo a México para descubrir sus volcanes. Creo firmemente que el conjunto de entrenamientos y cada cumbre conquistada nos transforma. Mi misión es compartir esa transformación con nuestra comunidad.',
+    bio: 'Soy Alex, fundador de Mountain Goats. Mi amor por las montañas comenzó en Alemania y me trajo a México para descubrir sus volcanes. Creo firmemente que el entrenamiento y cada cumbre conquistada nos transforman. Mi misión es utilizar mi experiencia como triatleta y corredor de larga distancia para construir una comunidad sólida y conquistar nuevos retos mientras conservamos la naturaleza que nos une.',
     instagram: 'This Goat is off the grid.',
   },
   {
