@@ -173,15 +173,24 @@ function generateRecommendations(
   return recommendations;
 }
 
+interface ExtendedTrainingPlan extends CalculatedTrainingPlan {
+  userWhatsapp?: string;
+  typicalElevationGainM: number;
+  strengthTrainingTypes: StrengthTrainingType[];
+  availableDaysPerWeek: number;
+}
+
 function calculateTrainingPlan(
   input: FitnessAssessmentInput
-): CalculatedTrainingPlan & { userWhatsapp?: string } {
+): ExtendedTrainingPlan {
   const maxRunningKm = parseFloat(input.maxRunningDistanceKm) || 0;
   const age = parseInt(input.age) || 25;
   const hikesLast3Months = parseInt(input.hikesLast3Months) || 0;
   const strengthFrequency = parseInt(input.strengthTrainingFrequency) || 0;
   const targetDistanceKm = parseFloat(input.targetHikeDistanceKm) || 0;
   const targetElevationM = parseInt(input.targetHikeElevationM) || 0;
+  const typicalElevationGainM = parseInt(input.typicalElevationGainM) || 0;
+  const availableDaysPerWeek = parseInt(input.availableDaysPerWeek) || 0;
   
   const fitnessLevel = calculateFitnessLevel(maxRunningKm, hikesLast3Months, strengthFrequency);
   const recommendedWeeks = calculateRecommendedWeeks(fitnessLevel, input.targetHikeLevel);
@@ -211,7 +220,9 @@ function calculateTrainingPlan(
     maxRunningDistanceKm: maxRunningKm,
     comfortablePace: input.comfortablePace,
     hikesLast3Months,
+    typicalElevationGainM,
     strengthFrequency,
+    strengthTrainingTypes: input.strengthTrainingTypes,
     
     targetHikeName: input.targetHikeName,
     targetHikeLevel: input.targetHikeLevel,
@@ -226,6 +237,7 @@ function calculateTrainingPlan(
     
     phases,
     
+    availableDaysPerWeek,
     availableDays: input.preferredTrainingDays,
     sessionDuration: input.sessionDuration,
     
@@ -248,7 +260,7 @@ function formatDate(dateStr: string): string {
   });
 }
 
-function generateEmailHtml(plan: CalculatedTrainingPlan & { userWhatsapp?: string }): string {
+function generateEmailHtml(plan: ExtendedTrainingPlan): string {
   const sessionDurationText = {
     short: '30-45 minutos',
     medium: '45-75 minutos',
@@ -276,6 +288,13 @@ function generateEmailHtml(plan: CalculatedTrainingPlan & { userWhatsapp?: strin
     friday: 'Viernes',
     saturday: 'Sábado',
     sunday: 'Domingo',
+  };
+
+  const strengthTypeTranslations: Record<StrengthTrainingType, string> = {
+    legs_core: 'Piernas y Core',
+    upper_body: 'Tren Superior',
+    full_body: 'Cuerpo Completo',
+    none: 'Ninguno',
   };
 
   return `
@@ -476,8 +495,16 @@ function generateEmailHtml(plan: CalculatedTrainingPlan & { userWhatsapp?: strin
             <div class="info-value">${plan.hikesLast3Months}</div>
           </div>
           <div class="info-item">
+            <div class="info-label">Desnivel Típico por Hike</div>
+            <div class="info-value">${plan.typicalElevationGainM} m</div>
+          </div>
+          <div class="info-item">
             <div class="info-label">Entren. Fuerza/Semana</div>
             <div class="info-value">${plan.strengthFrequency} días</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Tipo de Entren. Fuerza</div>
+            <div class="info-value">${plan.strengthTrainingTypes.length > 0 ? plan.strengthTrainingTypes.map(t => strengthTypeTranslations[t]).join(', ') : 'No especificado'}</div>
           </div>
         </div>
       </div>
@@ -523,10 +550,6 @@ function generateEmailHtml(plan: CalculatedTrainingPlan & { userWhatsapp?: strin
             <div class="info-label">Primer Herd Run</div>
             <div class="info-value">${formatDate(plan.firstHerdRunDate)}</div>
           </div>
-          <div class="info-item">
-            <div class="info-label">Duración por Sesión</div>
-            <div class="info-value">${sessionDurationText[plan.sessionDuration]}</div>
-          </div>
         </div>
 
         <div class="phase-list">
@@ -550,9 +573,20 @@ function generateEmailHtml(plan: CalculatedTrainingPlan & { userWhatsapp?: strin
       </div>
 
       <div class="section">
-        <div class="section-title">📆 Días Preferidos</div>
+        <div class="section-title">📆 Disponibilidad para Entrenar</div>
+        <div class="info-grid" style="margin-bottom: 15px;">
+          <div class="info-item">
+            <div class="info-label">Días Disponibles/Semana</div>
+            <div class="info-value">${plan.availableDaysPerWeek} días</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Duración por Sesión</div>
+            <div class="info-value">${sessionDurationText[plan.sessionDuration]}</div>
+          </div>
+        </div>
+        <p style="font-size: 12px; color: #666; margin-bottom: 8px;">Días preferidos:</p>
         <div class="tags">
-          ${plan.availableDays.map(day => `<span class="tag">${dayTranslations[day]}</span>`).join('')}
+          ${plan.availableDays.length > 0 ? plan.availableDays.map(day => `<span class="tag">${dayTranslations[day]}</span>`).join('') : '<span class="tag">No especificado</span>'}
         </div>
       </div>
 
