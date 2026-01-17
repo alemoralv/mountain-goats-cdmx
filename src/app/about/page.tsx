@@ -41,7 +41,7 @@ const TEAM_MEMBERS = [
     nickname: 'Daniel',
     fullName: 'Daniel Dumas',
     image: '/images/team/daniel.jpg',
-    bio: 'Soy Daniel, instructor de técnicas de montaña y fotógrafo de naturaleza. Llevo 15 años explorando las montañas de México. Me especializo en rutas técnicas y mi objetivo es que cada participante regrese no solo con recuerdos, sino con habilidades para toda la vida.',
+    bio: 'Soy Daniel...',
     instagram: '@daniel.dumas1111111',
   },
   {
@@ -49,7 +49,7 @@ const TEAM_MEMBERS = [
     nickname: 'Fer',
     fullName: 'Fernanda Hernández',
     image: '/images/team/diana.jpg',
-    bio: 'Soy Fer, especialista en entrenamiento y preparación física para alta montaña. Como ex atleta de resistencia, diseño los programas de training que preparan a nuestros Goats para cualquier desafío. Creo que con la preparación correcta, todos pueden conquistar cumbres.',
+    bio: 'Soy Fer...',
     instagram: '@fer111111111111111',
   },
 ];
