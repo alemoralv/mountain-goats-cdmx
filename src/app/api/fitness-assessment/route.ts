@@ -9,16 +9,8 @@ import type {
   CalculatedTrainingPlan 
 } from '@/types/database';
 
-// Initialize Resend with API key (optional - will log to console if not configured)
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-
 // Admin email to receive training plan notifications
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'mountaingoatscdmx@gmail.com';
-
-// Log warning if Resend is not configured
-if (!resend) {
-  console.warn('⚠️ RESEND_API_KEY not configured - emails will be logged to console instead');
-}
 
 // ============================================================================
 // TYPES
@@ -651,7 +643,14 @@ export async function POST(request: NextRequest) {
     try {
       const emailHtml = generateEmailHtml(trainingPlan);
       
-      if (resend) {
+      // Initialize Resend at request time (not module load time for serverless)
+      const apiKey = process.env.RESEND_API_KEY;
+      console.log('🔑 RESEND_API_KEY present:', !!apiKey);
+      console.log('🔑 RESEND_API_KEY prefix:', apiKey ? apiKey.substring(0, 10) + '...' : 'N/A');
+      
+      if (apiKey) {
+        const resendClient = new Resend(apiKey);
+        
         console.log('📧 Attempting to send email via Resend...');
         console.log(`   To: ${ADMIN_EMAIL}`);
         console.log(`   Subject: 🏔️ Nuevo Registro: ${body.firstName} - ${body.targetHikeName}`);
@@ -659,8 +658,9 @@ export async function POST(request: NextRequest) {
         // Use Resend's default domain (onboarding@resend.dev) for testing
         // Once you verify your own domain in Resend, change this to your domain
         const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'Mountain Goats <onboarding@resend.dev>';
+        console.log(`   From: ${FROM_EMAIL}`);
         
-        const { data: emailData, error: emailError } = await resend.emails.send({
+        const { data: emailData, error: emailError } = await resendClient.emails.send({
           from: FROM_EMAIL,
           to: ADMIN_EMAIL,
           subject: `🏔️ Nuevo Registro: ${body.firstName} - ${body.targetHikeName}`,
