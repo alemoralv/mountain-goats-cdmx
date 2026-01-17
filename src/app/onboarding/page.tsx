@@ -34,6 +34,8 @@ interface FormData {
   // Personal
   firstName: string;
   age: string;
+  email: string;
+  whatsapp: string;
   
   // Fitness
   maxRunningDistanceKm: string;
@@ -59,6 +61,8 @@ interface FormData {
 const INITIAL_FORM_DATA: FormData = {
   firstName: '',
   age: '',
+  email: '',
+  whatsapp: '',
   maxRunningDistanceKm: '',
   comfortablePace: '',
   hikesLast3Months: '0',
@@ -159,6 +163,39 @@ function StepPersonal({
           />
           <p className="text-xs text-gray-500 mt-1">
             Tu edad nos ayuda a ajustar las recomendaciones de recuperación.
+          </p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Tu correo electrónico *
+          </label>
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => updateFormData({ email: e.target.value })}
+            placeholder="tu@email.com"
+            className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white text-navy-950 placeholder:text-gray-400 focus:border-forest-900 focus:ring-2 focus:ring-forest-900/20 transition-all"
+            required
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Te enviaremos tu plan de entrenamiento personalizado aquí.
+          </p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Tu número de WhatsApp (opcional)
+          </label>
+          <input
+            type="tel"
+            value={formData.whatsapp}
+            onChange={(e) => updateFormData({ whatsapp: e.target.value })}
+            placeholder="+52 55 1234 5678"
+            className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white text-navy-950 placeholder:text-gray-400 focus:border-forest-900 focus:ring-2 focus:ring-forest-900/20 transition-all"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Para enviarte recordatorios y actualizaciones por WhatsApp.
           </p>
         </div>
       </div>
@@ -561,7 +598,7 @@ export default function OnboardingPage() {
   const isStepValid = (step: number): boolean => {
     switch (step) {
       case 1:
-        return formData.firstName.trim() !== '' && formData.age !== '' && parseInt(formData.age) >= 16;
+        return formData.firstName.trim() !== '' && formData.age !== '' && parseInt(formData.age) >= 16 && formData.email.trim() !== '' && formData.email.includes('@');
       case 2:
         return formData.maxRunningDistanceKm !== '' && formData.comfortablePace !== '';
       case 3:

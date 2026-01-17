@@ -19,6 +19,8 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'mountaingoatscdmx@gmail.com';
 interface FitnessAssessmentInput {
   firstName: string;
   age: string;
+  email: string;
+  whatsapp?: string;
   maxRunningDistanceKm: string;
   comfortablePace: string;
   hikesLast3Months: string;
@@ -172,9 +174,8 @@ function generateRecommendations(
 }
 
 function calculateTrainingPlan(
-  input: FitnessAssessmentInput,
-  userEmail: string
-): CalculatedTrainingPlan {
+  input: FitnessAssessmentInput
+): CalculatedTrainingPlan & { userWhatsapp?: string } {
   const maxRunningKm = parseFloat(input.maxRunningDistanceKm) || 0;
   const age = parseInt(input.age) || 25;
   const hikesLast3Months = parseInt(input.hikesLast3Months) || 0;
@@ -202,7 +203,8 @@ function calculateTrainingPlan(
   
   return {
     userName: input.firstName,
-    userEmail,
+    userEmail: input.email,
+    userWhatsapp: input.whatsapp,
     userAge: age,
     
     fitnessLevel,
@@ -246,7 +248,7 @@ function formatDate(dateStr: string): string {
   });
 }
 
-function generateEmailHtml(plan: CalculatedTrainingPlan): string {
+function generateEmailHtml(plan: CalculatedTrainingPlan & { userWhatsapp?: string }): string {
   const sessionDurationText = {
     short: '30-45 minutos',
     medium: '45-75 minutos',
@@ -444,6 +446,10 @@ function generateEmailHtml(plan: CalculatedTrainingPlan): string {
             <div class="info-value">${plan.userEmail}</div>
           </div>
           <div class="info-item">
+            <div class="info-label">WhatsApp</div>
+            <div class="info-value">${plan.userWhatsapp || 'No proporcionado'}</div>
+          </div>
+          <div class="info-item">
             <div class="info-label">Edad</div>
             <div class="info-value">${plan.userAge} años</div>
           </div>
@@ -605,7 +611,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Calculate the training plan
-    const trainingPlan = calculateTrainingPlan(body, user.email || 'No email');
+    const trainingPlan = calculateTrainingPlan(body);
 
     // Store the assessment in Supabase
     const { error: insertError } = await supabase
@@ -653,7 +659,7 @@ export async function POST(request: NextRequest) {
         
         console.log('📧 Attempting to send email via Resend...');
         console.log(`   To: ${ADMIN_EMAIL}`);
-        console.log(`   Subject: 🏔️ Nuevo Registro: ${body.firstName} - ${body.targetHikeName}`);
+        console.log(`   Subject: Mountain Goats CDMX: Nuevo Registro - ${body.firstName}`);
         
         // Use Resend's default domain (onboarding@resend.dev) for testing
         // Once you verify your own domain in Resend, change this to your domain
@@ -663,7 +669,7 @@ export async function POST(request: NextRequest) {
         const { data: emailData, error: emailError } = await resendClient.emails.send({
           from: FROM_EMAIL,
           to: ADMIN_EMAIL,
-          subject: `🏔️ Nuevo Registro: ${body.firstName} - ${body.targetHikeName}`,
+          subject: `Mountain Goats CDMX: Nuevo Registro - ${body.firstName}`,
           html: emailHtml,
         });
 
@@ -680,7 +686,7 @@ export async function POST(request: NextRequest) {
         console.log('📧 EMAIL WOULD BE SENT (RESEND_API_KEY not configured)');
         console.log('='.repeat(80));
         console.log(`To: ${ADMIN_EMAIL}`);
-        console.log(`Subject: 🏔️ Nuevo Registro: ${body.firstName} - ${body.targetHikeName}`);
+        console.log(`Subject: Mountain Goats CDMX: Nuevo Registro - ${body.firstName}`);
         console.log('-'.repeat(80));
         console.log('Training Plan Summary:');
         console.log(JSON.stringify(trainingPlan, null, 2));
