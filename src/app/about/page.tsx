@@ -41,16 +41,16 @@ const TEAM_MEMBERS = [
     nickname: 'Daniel',
     fullName: 'Daniel Dumas',
     image: '/images/team/daniel.jpg',
-    bio: 'Soy Daniel...',
+    bio: 'Soy Daniel, integrante de Mountain Goats. La montaña ha sido mi escuela durante años, enseñándome técnica, respeto y perseverancia. Recientemente fui al Iztaccíhuatl, una experiencia que me recordó la importancia de ser un equipo en las alturas. Me uno a esta comunidad para compartir mi trayectoria y acompañarlos en algunas caminatas, asegurando que disfruten de la aventura con seguridad y confianza mientras conquistamos nuevas cimas juntos.',
     instagram: '@daniel.dumas1111111',
   },
   {
     id: 4,
-    nickname: 'Fer',
-    fullName: 'Fernanda Hernández',
-    image: '/images/team/diana.jpg',
-    bio: 'Soy Fer...',
-    instagram: '@fer111111111111111',
+    nickname: 'Juan',
+    fullName: 'Juan Pablo López',
+    image: '/images/team/juanpablo.jpg',
+    bio: 'Soy Juan Pablo, integrante de Mountain Goats. Encuentro en la montaña el equilibrio perfecto entre el reto físico y la paz mental. Para mí, cada ascenso es una oportunidad para desconectar de la rutina y reconectar con lo esencial. Disfruto de descubrir nuevos senderos y creo firmemente que las mejores vistas se ganan con esfuerzo y buena compañía. Estoy aquí para sumar kilómetros, compartir experiencias y motivar al equipo a llegar siempre un poco más alto.',
+    instagram: '@jp111111111111111',
   },
 ];
 
